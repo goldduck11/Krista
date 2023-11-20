@@ -5,12 +5,12 @@ import models.Category;
 import models.News;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.UUID;
 
 @Path("/write")
-@Produces(MediaType.APPLICATION_JSON)
 public class WriterApi {
-    private final Facade facade = new Facade();
+    private final Facade facade = new Facade("postgre");
 
     @POST
     @Path("/categories")
@@ -24,10 +24,14 @@ public class WriterApi {
         facade.getCategoryController().updateCategory(id, category);
     }
 
-    @POST
-    @Path("/news")
-    public void createNews(News news) {
+    @GET
+    @Path("/news/add")
+    public Response createNews(    @QueryParam("title") String title,
+                                   @QueryParam("text") String text
+    ) {
+        News news = new News(UUID.randomUUID(), null, title, text, null);
         facade.getNewsController().createNews(news);
+        return Response.ok("News added successfully").entity(news).build();
     }
 
     @PUT

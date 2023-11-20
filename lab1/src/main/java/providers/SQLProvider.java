@@ -1,8 +1,12 @@
 package providers;
 
+import models.News;
+
+import java.util.List;
+
 public interface SQLProvider {
-    public void update();
-    public void delete();
-    public void add();
-    public SQLProvider build();
+    List<News> getAllNews();
+    void update(News news);
+    void delete(News news);
+    void add(News news);
 }

@@ -1,5 +1,9 @@
 package views;
 
+import views.MessageBodyWriters.CategoryToJsonProvider;
+import views.MessageBodyWriters.ListToJsonProvider;
+import views.MessageBodyWriters.NewsToJsonProvider;
+
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +15,8 @@ public class Singleton extends Application {
         singletons.add(new ReaderApi());
         singletons.add(new WriterApi());
         singletons.add(new ListToJsonProvider());
+        singletons.add(new NewsToJsonProvider());
+        singletons.add(new CategoryToJsonProvider());
     }
 
     @Override

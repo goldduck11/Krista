@@ -1,9 +1,8 @@
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
-import providers.PostgreSQLFactory;
-import providers.PostgreSQLProvider;
-import providers.ProviderFactory;
-import providers.SQLProvider;
 import views.Singleton;
 
 import javax.ws.rs.ApplicationPath;
@@ -21,8 +20,5 @@ public class JaxRsApplication {
         server.start();
 
         System.out.println("Undertow Server started on " + host + ":" + port);
-        ProviderFactory providerFactory = new PostgreSQLFactory();
-        SQLProvider sqlProvider = providerFactory.create();
-        System.out.println(sqlProvider);
     }
 }

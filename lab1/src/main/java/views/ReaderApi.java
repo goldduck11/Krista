@@ -1,42 +1,53 @@
 package views;
 
 import controllers.Facade;
-import models.Category;
-import models.News;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 @Path("/read")
 @Produces(MediaType.APPLICATION_JSON)
 public class ReaderApi {
-    private final Facade facade = new Facade();
+    private final Facade facade = new Facade("mongo");
 
     @GET
     @Path("/categories")
-    public List<Category> getAllCategories() {
-        return facade.getCategoryController().getAllCategories();
+    public Response getAllCategories() {
+        return Response.status(Response.Status.OK)
+                .entity(facade.getCategoryController().getAllCategories())
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @GET
     @Path("/categories/{id}")
-    public Category getCategoryById(@PathParam("id") long id) {
-        return facade.getCategoryController().getCategoryById(id);
+    public Response getCategoryById(@PathParam("id") long id) {
+        return Response.status(Response.Status.OK)
+                .entity(facade.getCategoryController().getCategoryById(id))
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @GET
     @Path("/news")
-    public List<News> getAllNews() {
-        return facade.getNewsController().getAllNews();
+    public Response getAllNews() {
+        return Response.status(Response.Status.OK)
+                .entity(facade.getNewsController().getAllNews())
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @GET
     @Path("/news/{id}")
-    public News getNewsById(@PathParam("id") long id) {
-        return facade.getNewsController().getNewsById(id);
+    public Response getNewsById(@PathParam("id") long id) {
+        return null;
+                /*Response.status(Response.Status.OK)
+                .entity(facade.getNewsController().getNewsById(id))
+                .type(MediaType.APPLICATION_JSON)
+                .build();*/
     }
 }
