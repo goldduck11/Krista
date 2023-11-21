@@ -23,17 +23,14 @@ public class MongoDBProvider implements SQLProvider {
 
     private final MongoClientURI URI = new MongoClientURI("mongodb://localhost:27017");
 
-
-
     @Override
     public List<News> getAllNews() {
         try (MongoClient mongodb = new MongoClient(this.URI)) {
             DB db = mongodb.getDB("customData-database");
             DBCursor customDataCollection = db.getCollection("customDataList").find();
-            List<News> myCustomDataList = null; // this list will hold your custom data
-            JSON json = new JSON();
+            List<News> myCustomDataList; // this list will hold your custom data
             ObjectMapper objectMapper = new ObjectMapper();
-            myCustomDataList = objectMapper.readValue(json.serialize(customDataCollection),
+            myCustomDataList = objectMapper.readValue(JSON.serialize(customDataCollection),
                     new TypeReference<List<News>>() {
                     });
            return myCustomDataList;
