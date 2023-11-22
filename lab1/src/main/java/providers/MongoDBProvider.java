@@ -34,16 +34,16 @@ public class MongoDBProvider implements SQLProvider {
 
     @Override
     public List<News> getAllNews() {
-        try (Session session = HibernateMo){
-
-        }
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<News> list = entityManagerFactory.
     }
 
     @Override
     public void update(News news) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.
+        entityManager.refresh(News.class);
         entityManager.close();
         entityManagerFactory.close();
     }
