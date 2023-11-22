@@ -11,6 +11,7 @@ import com.mongodb.client.result.UpdateResult;
 import com.mongodb.util.JSON;
 import models.News;
 import org.bson.Document;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -34,18 +35,20 @@ public class MongoDBProvider implements SQLProvider {
 
     @Override
     public List<News> getAllNews() {
-        try (Session session = HibernateMo){
-
-        }
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<News> list = entityManagerFactory.
     }
 
     @Override
     public void update(News news) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.
+        entityManager.refresh(News.class);
         entityManager.close();
         entityManagerFactory.close();
+
+
     }
 
     @Override
