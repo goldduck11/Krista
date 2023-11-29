@@ -13,12 +13,13 @@ public class NewsControllerImpl implements NewsController {
         provider = Factory.create(type);
     }
 
-    public List<News> getAllNews() {
-        return provider.getAllNews();
+    public List getNameNews() {
+        return provider.getNameNews();
     }
 
+    //TODO надо будет переделать, чтобы конкретно по запросу доставались данные
     public News getNewsById(UUID uuid) {
-        return provider.getAllNews().stream().filter(news -> news.getUuid().equals(uuid)).findFirst().orElse(null);
+        return null;
     }
 
     public List<News> getNewsByCategory(long categoryId) {

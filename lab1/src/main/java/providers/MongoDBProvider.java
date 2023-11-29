@@ -1,47 +1,38 @@
 package providers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.mongodb.*;
-import com.mongodb.MongoClient;
-import com.mongodb.client.*;
-import com.mongodb.client.result.UpdateResult;
-import com.mongodb.util.JSON;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import models.News;
-import org.bson.Document;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.ogm.jpa.HibernateOgmPersistence;
-import org.hibernate.query.Query;
-import org.hibernate.sql.Update;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.print.Doc;
-import java.io.IOException;
-import java.util.ArrayList;
+import javax.ejb.Stateless;
+import javax.persistence.*;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.where;
-
+@Stateless
 public class MongoDBProvider implements SQLProvider {
 
-    private final MongoClientURI URI = new MongoClientURI("mongodb://localhost:27017");
+    @PersistenceContext(unitName = "mangodb")
+    private EntityManager entityManager;
+    private final static String dbNameNews = "FROM News n";
+    private final static String dbDescription = "db.getCollection('News').find({'Description'});";
 
     @Override
-    public List<News> getAllNews() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<News> list = entityManagerFactory.
+    public List getNameNews() {
+        List<News> nameNews = entityManager.createQuery(dbNameNews).getResultList();
+        return nameNews;
+    }
+
+    @Override
+    public News getNews() {
+        News descriptionNews = (News) entityManager.createNativeQuery( dbDescription, News.class )
+                .getResultList();
+        return descriptionNews;
     }
 
     @Override
     public void update(News news) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(NameDB.LOCAL);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.refresh(News.class);
         entityManager.close();
@@ -50,22 +41,13 @@ public class MongoDBProvider implements SQLProvider {
 
     @Override
     public void delete(News news) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.remove(news);
-        entityManager.close();
-        entityManagerFactory.close();
-
     }
 
     @Override
     public void add(News news) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("mangodb");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(news);
         entityManager.getTransaction().commit();
-        entityManager.close();
-        entityManagerFactory.close();
     }
 }

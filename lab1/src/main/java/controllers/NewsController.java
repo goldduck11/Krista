@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NewsController {
-    List<News> getAllNews();
+    List getNameNews();
     News getNewsById(UUID uuid);
     List<News> getNewsByCategory(long categoryId);
     void createNews(News news);

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,10 +19,11 @@ import java.util.UUID;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Entity
     @Table(name = "News")
-    public class News {
+    public class News implements Serializable {
         @JsonProperty("uuid")
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
+        @Type(type = "objectid")
         @Column(name = "uuid", unique = true, nullable = false)
         private UUID uuid;
 

@@ -10,8 +10,8 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class PostgreSQLProvider implements SQLProvider {
-    private final SessionFactory sessionFactory =
-            new Configuration().configure("hibernatePostgre.cfg.xml").buildSessionFactory();
+    private final SessionFactory sessionFactory = null;
+//            new Configuration().configure("hibernatePostgre.cfg.xml").buildSessionFactory();
 
     @Override
     public void add(News news) {
@@ -24,12 +24,15 @@ public class PostgreSQLProvider implements SQLProvider {
         }
     }
 
+
     @Override
-    public List<News> getAllNews() {
-        try (Session session = sessionFactory.openSession()) {
-            Query<News> query = session.createQuery("from News", News.class);
-            return query.list();
-        }
+    public List<String> getNameNews() {
+        return null;
+    }
+
+    @Override
+    public News getNews() {
+        return null;
     }
 
     @Override

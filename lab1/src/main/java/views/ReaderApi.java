@@ -36,7 +36,7 @@ public class ReaderApi {
     @Path("/news")
     public Response getAllNews() {
         return Response.status(Response.Status.OK)
-                .entity(facade.getNewsController().getAllNews())
+                .entity(facade.getNewsController().getNameNews())
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }
