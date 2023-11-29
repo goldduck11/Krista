@@ -13,7 +13,7 @@ public class JaxRsApplication {
 
     public static void main(String[] args){
         String host = "localhost";
-        int port = 8080;
+        int port = 4;
 
         server.setPort(port).setHostname(host).deploy(Singleton.class);
 

@@ -1,10 +1,6 @@
 package providers;
 
-import com.mongodb.*;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import models.News;
-
 import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +14,7 @@ public class MongoDBProvider implements SQLProvider {
     private final static String dbDescription = "db.getCollection('News').find({'Description'});";
 
     @Override
-    public List getNameNews() {
+    public List<News> getNameNews() {
         List<News> nameNews = entityManager.createQuery(dbNameNews).getResultList();
         return nameNews;
     }
