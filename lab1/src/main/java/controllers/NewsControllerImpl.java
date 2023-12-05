@@ -1,5 +1,6 @@
 package controllers;
 
+import lombok.SneakyThrows;
 import providers.Factory;
 import models.News;
 import providers.SQLProvider;
@@ -13,7 +14,8 @@ public class NewsControllerImpl implements NewsController {
         provider = Factory.create(type);
     }
 
-    public List getNameNews() {
+    @SneakyThrows
+    public List<String> getNameNews() {
         return provider.getNameNews();
     }
 

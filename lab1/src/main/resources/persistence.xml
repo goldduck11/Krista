@@ -1,24 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<persistence
-        xmlns_xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi_schemaLocation="http://java.sun.com/xml/ns/persistence
-             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-        version="2.0">
-    <persistence-unit name="mangodb" transaction-type="JTA">
-        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
-
-        <class>models.Category</class>
-        <class>models.News</class>
-
-        <properties>
-            <property name="hibernate.ogm.datastore.provider" value="MONGODB"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform"/>
-            <property name="hibernate.ogm.datastore.grid_dialect"
-                      value="org.hibernate.ogm.datastore.mongodb.MongoDBDialect"/>
-            <property name="hibernate.ogm.datastore.database"
-                      value="local"/>
-            <property name="hibernate.ogm.mongodb.host"
-                      value="localhost"/>
-        </properties>
-    </persistence-unit>
-</persistence>
+<persistence-unit name="mongo-ogm" transaction-type="JTA">
+    <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+    <!-- Другие настройки -->
+    <properties>
+        <property name="hibernate.ogm.datastore.provider" value="mongodb" />
+        <property name="hibernate.ogm.datastore.host" value="localhost:27017" />
+        <property name="hibernate.ogm.datastore.database" value="local" />
+        <!-- Другие настройки -->
+    </properties>
+</persistence-unit>

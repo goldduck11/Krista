@@ -1,29 +1,51 @@
 package providers;
 
+import com.mongodb.*;
+import com.mongodb.client.*;
+import com.mongodb.client.MongoClient;
+import models.Category;
 import models.News;
+import org.bson.Document;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.ejb.Stateless;
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Stateless
 public class MongoDBProvider implements SQLProvider {
 
-    @PersistenceContext(unitName = "mangodb")
-    private EntityManager entityManager;
-    private final static String dbNameNews = "FROM News n";
-    private final static String dbDescription = "db.getCollection('News').find({'Description'});";
 
     @Override
-    public List<News> getNameNews() {
-        List<News> nameNews = entityManager.createQuery(dbNameNews).getResultList();
-        return nameNews;
+    public List getNameNews() {
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("local");
+        MongoCollection<Document> collection = database.getCollection("News");
+        MongoCursor<Document> cursor = collection.find().iterator();
+        List<News> list = new ArrayList<>();
+        while (cursor.hasNext()) {
+            try {
+                Document document = cursor.next();
+                JSONObject jsonObject = new JSONObject(document.toJson());
+                System.out.println(jsonObject.getJSONObject("_id"));
+                list.add(new News(UUID.fromString(jsonObject.getJSONObject("_id").get("UUID").toString()),
+                        (List<Category>) jsonObject.getJSONObject("_id").get("category"),
+                        (String) jsonObject.getJSONObject("_id").get("title"),
+                        (String) jsonObject.getJSONObject("_id").get("text"),
+                        (Date) jsonObject.getJSONObject("_id").get("date")));
+            }catch (JSONException e) {
+                return new ArrayList<String>(Collections.singleton("Возникла ошибка поиска данных...."));
+            }
+        }
+        cursor.close();
+        return list.size() == 1 ?
+             new ArrayList<String>(Collections.singleton("Данные не были найдены....")) : list ;
     }
 
     @Override
     public News getNews() {
-        News descriptionNews = (News) entityManager.createNativeQuery( dbDescription, News.class )
-                .getResultList();
-        return descriptionNews;
+        return null;
     }
 
     @Override
@@ -37,13 +59,11 @@ public class MongoDBProvider implements SQLProvider {
 
     @Override
     public void delete(News news) {
-        entityManager.remove(news);
+        return;
     }
 
     @Override
     public void add(News news) {
-        entityManager.getTransaction().begin();
-        entityManager.persist(news);
-        entityManager.getTransaction().commit();
+        return;
     }
 }

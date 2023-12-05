@@ -14,5 +14,16 @@
       <jdbc-driver>java.sql.Driver</jdbc-driver>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="hibernatePostgre.cfg.xml/Hibernate" uuid="4adca826-86d2-438d-9ed5-e8ce8111d7a8">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/ander/Desktop/Практические по программированию/Krista/lab1/src/main/resources/hibernatePostgre.cfg.xml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/NewsService</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
